@@ -12,14 +12,14 @@ function assert(condition) {
 
 class Set9 {
   constructor() {
-    this.mask = Array(9).fill(0);
+    this.mask = 0;
     this.size = 9;
   }
 
   mark(x) {
     assert(0 <= x && x < 9);
-    if (this.mask[x] == 0) {
-      this.mask[x] = 1;
+    if ((this.mask & (1 << x)) == 0) {
+      this.mask |= 1 << x;
       --this.size;
       return true;
     }
@@ -28,7 +28,7 @@ class Set9 {
 
   isSet(x) {
     assert(0 <= x && x < 9);
-    return this.mask[x] == 1;
+    return (this.mask & (1 << x)) != 0;
   }
 }
 
@@ -121,11 +121,11 @@ class Sudoku {
     while (1) {
       let changed = false;
       for (let square = 0; square < 9; ++square) {
-        const numberMask = this.numbersMask[square];
+        if (this.squareMask[square].size == 0) continue;
         for (let number = 0; number < 9; ++number) {
-          if (numberMask[number].size != 1) continue;
+          if (this.numbersMask[square][number].size != 1) continue;
           for (let index = 0; index < 9; ++index) {
-            if (!numberMask[number].isSet(index)) {
+            if (!this.numbersMask[square][number].isSet(index)) {
               const row = ((index / 3) >> 0) + ((square / 3) >> 0) * 3;
               const column = (index % 3) + (square % 3) * 3;
 //               console.log("Fast resolved: row %d, column %d => %d", row, column, number + 1);

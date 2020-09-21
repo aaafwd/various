@@ -267,4 +267,31 @@ solve(parseInput(`
 005400030
 `));
 
+// A Sudoku designed to work against the brute force algorithm.
+// https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
+solve(parseInput(`
+000000000
+000003085
+001020000
+000507000
+004000100
+090000000
+500000073
+002010000
+000040009
+`));
+
+// A Sudoku with 17 clues and diagonal symmetry.
+solve(parseInput(`
+000000001
+000000023
+004005000
+000100000
+000030600
+007000580
+000067000
+010004000
+520000000
+`));
+
 })();

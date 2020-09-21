@@ -3,6 +3,13 @@
 
 (function() {
 
+function assert(condition) {
+  if (condition) return;
+  console.assert.apply(console, arguments);
+  debugger;
+  throw new Error('Assertion failed');
+}
+
 class Set9 {
   constructor() {
     this.mask = Array(9).fill(0);
@@ -10,7 +17,7 @@ class Set9 {
   }
 
   mark(x) {
-    console.assert(0 <= x && x < 9);
+    assert(0 <= x && x < 9);
     if (this.mask[x] == 0) {
       this.mask[x] = 1;
       --this.size;
@@ -20,7 +27,7 @@ class Set9 {
   }
 
   isSet(x) {
-    console.assert(0 <= x && x < 9);
+    assert(0 <= x && x < 9);
     return this.mask[x] == 1;
   }
 }
@@ -49,7 +56,7 @@ class Sudoku {
     for (let row = 0; row < 9; ++row) {
       for (let column = 0; column < 9; ++column) {
         if (rows[row][column] != 0) {
-          console.assert(sudoku.setSquare(row, column, rows[row][column]));
+          assert(sudoku.setSquare(row, column, rows[row][column]));
         }
       }
     }
@@ -61,7 +68,7 @@ class Sudoku {
   }
 
   setSquare(row, column, number) {
-    console.assert(1 <= number && number <= 9);
+    assert(1 <= number && number <= 9);
     if (this.sudoku[row][column] == number) return true;
     if (this.sudoku[row][column] != 0) return false;
 
@@ -184,14 +191,14 @@ class Sudoku {
 
 function parseInput(input) {
   let rows = input.trim().split("\n").map(row => row.split("").map(x => +x));
-  console.assert(rows.length == 9);
+  assert(rows.length == 9);
   return rows;
 }
 
 function solve(rows) {
   console.time("Runtime");
   let sudoku = Sudoku.buildFrom(rows);
-  console.assert(sudoku.resolve(), "Unknown squares: " + sudoku.left);
+  assert(sudoku.resolve(), "Unknown squares: " + sudoku.left);
 //   console.log(sudoku);
   console.log(sudoku.sudoku.map(row => row.join(" ")).join("\n"));
   console.timeEnd("Runtime");

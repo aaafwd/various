@@ -194,6 +194,7 @@ function solve(rows) {
 }
 
 console.clear();
+console.time("Total runtime");
 
 solve(parseInput(`
 000809000
@@ -294,4 +295,5 @@ solve(parseInput(`
 520000000
 `));
 
+console.timeEnd("Total runtime");
 })();

@@ -56,6 +56,10 @@ class Sudoku {
     return sudoku;
   }
 
+  clone() {
+    return Sudoku.buildFrom(this.sudoku);
+  }
+
   setSquare(row, column, number) {
     console.assert(1 <= number && number <= 9);
     if (this.sudoku[row][column] == number) return true;
@@ -133,7 +137,7 @@ class Sudoku {
   resolveImpl_(index, solutions) {
     if (!this.fastResolve_()) return false;
     if (this.left == 0) {
-      solutions.push(Sudoku.buildFrom(this.sudoku));
+      solutions.push(this.clone());
       return solutions.length == 2;
     }
     for (; index < 81; ++index) {
@@ -144,7 +148,7 @@ class Sudoku {
       const localIndex = this.localIndex_(row, column);
       for (let number = 0; number < 9; ++number) {
         if (this.numbersMask[square][number].isSet(localIndex)) continue;
-        let savedSudoku = Sudoku.buildFrom(this.sudoku);
+        let savedSudoku = this.clone();
 //         console.log("Trying: row %d, column %d => %d", row, column, number + 1);
         if (this.setSquare(row, column, number + 1)
             && this.resolveImpl_(index + 1, solutions)) {
